@@ -13,8 +13,8 @@ set -x EDITOR nvim
 set -x VISUAL nvim
 set -x BROWSER brave
 
-starship init fish | source
-zoxide init fish | source
+type -q starship && starship init fish | source
+type -q zoxide && zoxide init fish | source
 
 set -x PATH $HOME/.local/bin $PATH
 set -x PATH $HOME/go/bin $PATH
