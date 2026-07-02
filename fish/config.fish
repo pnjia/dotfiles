@@ -19,3 +19,4 @@ type -q zoxide && zoxide init fish | source
 set -x PATH $HOME/.local/bin $PATH
 set -x PATH $HOME/go/bin $PATH
 set -x PATH $HOME/.cargo/bin $PATH
+set -x PATH $HOME/.local/share/gem/ruby/3.2.0/bin $PATH
