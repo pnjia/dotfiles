@@ -1,0 +1,13 @@
+name: Server
+root: ~/Documents/dev
+
+windows:
+  - server:
+      panes:
+        - clear
+  - monitor:
+      panes:
+        - htop
+  - logs:
+      panes:
+        - clear

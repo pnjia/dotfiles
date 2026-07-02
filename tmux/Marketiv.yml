@@ -1,0 +1,9 @@
+name: Marketiv
+root: /home/panjiangka1/Documents/dev/BackendMarketiv
+
+windows:
+  - AI:
+      layout: even-horizontal
+      panes:
+        - opencode
+        - nvim .
