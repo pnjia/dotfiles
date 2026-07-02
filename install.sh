@@ -8,7 +8,7 @@ echo "Creating symlinks..."
 mkdir -p ~/.config/tmuxinator
 mkdir -p ~/.config/fish
 
-ln -sf "$DOTFILES/tmux/"*.yml ~/.config/tmuxinator/
+ln -sf "$DOTFILES/tmuxinator/"*.yml ~/.config/tmuxinator/
 ln -sf "$DOTFILES/tmux.conf" ~/.tmux.conf
 ln -sf "$DOTFILES/fish/config.fish" ~/.config/fish/config.fish
 

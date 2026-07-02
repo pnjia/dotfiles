@@ -1,5 +1,6 @@
 return {
   "sphamba/smear-cursor.nvim",
+  enabled = false,
   opts = {
     -- 🔥 FIRE HAZARD 🔥 configuration
     cursor_color = "#00aaff", -- biru (blue fire)
