@@ -1,9 +1,18 @@
 name: Marketiv
+
 root: /home/panjiangka1/Documents/dev/BackendMarketiv
 
 windows:
-  - AI:
-      layout: even-horizontal
+  - AI-Backend:
+      layout: 1bcd,190x42,0,0{95x42,0,0,1,94x42,96,0,3}
       panes:
         - opencode
+        - nvim .
+
+  - AI-Marketiv:
+      root: /home/panjiangka1/Documents/dev/marketiv-web
+      layout: 20aa,190x42,0,0{71x42,0,0[71x27,0,0,2,71x14,0,28,4],118x42,72,0,5}
+      panes:
+        - opencode
+        - npm run dev
         - nvim .
