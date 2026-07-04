@@ -10,7 +10,7 @@ if status is-interactive
         alias lt='lsd --tree'
         alias ls='lsd'
     end
-    
+
     # Ensure tmux uses UTF-8
     alias tmux="tmux -u"
 end
@@ -20,7 +20,6 @@ set PATH ~/.local/share/fnm $PATH
 fnm env --use-on-cd | source
 
 set -gx PATH $HOME/.nvm/versions/node/v24.16.0/bin $PATH
-
 
 # Added by Antigravity CLI installer
 set -gx PATH "/home/panjiangka1/.local/bin" $PATH
@@ -36,3 +35,6 @@ fish_add_path $HOME/.brew/bin
 fish_add_path $HOME/.brew/sbin
 fish_add_path $HOME/.local/share/gem/ruby/3.3.0/bin
 eval ($HOME/.brew/bin/brew shellenv)
+
+# Menambahkan untuk zoxide
+zoxide init fish | source
