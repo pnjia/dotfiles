@@ -38,3 +38,8 @@ eval ($HOME/.brew/bin/brew shellenv)
 
 # Menambahkan untuk zoxide
 zoxide init fish | source
+
+alias sherlock='/tmp/sherlock/venv/bin/sherlock'
+
+# fd-find (binary name fdfind on Debian/Ubuntu)
+alias fd='fdfind'
