@@ -79,29 +79,12 @@ return {
       },
     },
     opts = {
-      open_for_directories = false,
+      open_for_directories = true,
       yazi_cmd = "/usr/bin/yazi",
     },
     init = function()
-      -- Disable netrw early
       vim.g.loaded_netrwPlugin = 1
       vim.g.loaded_netrw = 1
-      -- Open yazi when nvim starts with a directory arg
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = vim.api.nvim_create_augroup("Yazi_start_with_dir", { clear = true }),
-        desc = "Open yazi for directory arguments",
-        once = true,
-        callback = function()
-          local args = vim.fn.argv()
-          if #args > 0 and vim.fn.isdirectory(args[1]) == 1 then
-            local bufnr = vim.api.nvim_get_current_buf()
-            vim.schedule(function()
-              pcall(vim.api.nvim_buf_delete, bufnr, { force = true })
-              require("yazi").yazi(nil, args[1])
-            end)
-          end
-        end,
-      })
     end,
   },
 

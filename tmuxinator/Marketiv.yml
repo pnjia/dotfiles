@@ -4,15 +4,20 @@ root: /home/panjiangka1/Documents/dev/BackendMarketiv
 
 windows:
   - AI-Backend:
-      layout: 1bcd,190x42,0,0{95x42,0,0,1,94x42,96,0,3}
+      layout: 61e7,138x30,0,0{46x30,0,0,1,91x30,47,0,7}
       panes:
         - opencode
-        - nvim .
+        - nvim
 
   - AI-Marketiv:
       root: /home/panjiangka1/Documents/dev/marketiv-web
-      layout: 20aa,190x42,0,0{71x42,0,0[71x27,0,0,2,71x14,0,28,4],118x42,72,0,5}
+      layout: 9b24,138x30,0,0{45x30,0,0[45x20,0,0,2,45x9,0,21,4],92x30,46,0,5}
       panes:
         - opencode
         - npm run dev
-        - nvim .
+        - nvim
+
+  - Tasks:
+      root: /home/panjiangka1
+      panes:
+        -
