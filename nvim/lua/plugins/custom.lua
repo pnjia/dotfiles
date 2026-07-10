@@ -89,27 +89,27 @@ return {
   },
 
   -- 5. Obsidian
-  {
-    "epwalsh/obsidian.nvim",
-    version = "*",
-    ft = "markdown",
-    opts = {
-      workspaces = {
-        { name = "Second_Brain", path = "~/Documents/Second_Brain" },
-      },
-      legacy_commands = false,
-    },
-  },
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && npm install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
-  },
-
+  -- {
+  --   "epwalsh/obsidian.nvim",
+  --   version = "*",
+  --   ft = "markdown",
+  --   opts = {
+  --     workspaces = {
+  --       { name = "Second_Brain", path = "~/Documents/Second_Brain" },
+  --     },
+  --     legacy_commands = false,
+  --   },
+  -- },
+  -- {
+  --   "iamcco/markdown-preview.nvim",
+  --   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  --   build = "cd app && npm install",
+  --   init = function()
+  --     vim.g.mkdp_filetypes = { "markdown" }
+  --   end,
+  --   ft = { "markdown" },
+  -- },
+  --
   -- 6. Disable all markdown linters (nvim-lint)
   {
     "mfussenegger/nvim-lint",
