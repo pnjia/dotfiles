@@ -88,7 +88,7 @@ return {
     end,
   },
 
-  -- 5. Obsidian
+  -- 5. Obsidian (disabled: frontmatter update mengganggu workflow)
   -- {
   --   "epwalsh/obsidian.nvim",
   --   version = "*",
@@ -97,7 +97,13 @@ return {
   --     workspaces = {
   --       { name = "Second_Brain", path = "~/Documents/Second_Brain" },
   --     },
+  --     ui = { enabled = false },
   --     legacy_commands = false,
+  --     templates = {
+  --       subdir = "099_System/Templates",
+  --       date_format = "%Y-%m-%d",
+  --       time_format = "%H:%M",
+  --     },
   --   },
   -- },
   -- {
@@ -110,17 +116,7 @@ return {
   --   ft = { "markdown" },
   -- },
   --
-  -- 6. Disable all markdown linters (nvim-lint)
-  {
-    "mfussenegger/nvim-lint",
-    optional = true,
-    opts = function(_, opts)
-      opts.linters_by_ft = opts.linters_by_ft or {}
-      opts.linters_by_ft.markdown = {}
-    end,
-  },
-
-  -- 7. Live Server
+  -- 6. Live Server
   {
     "barrettruth/live-server.nvim",
     cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
@@ -207,6 +203,30 @@ return {
         caution = {
           raw = "[!CAUTION]",
           rendered = "󰳦 Caution",
+        },
+      },
+    },
+  },
+
+  -- 8. Override gd for marksman to support [[wiki-links]]
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        marksman = {
+          keys = {
+            {
+              "gd",
+              function()
+                local wiki = require("config.wiki_links")
+                if not wiki.goto_wiki_link() then
+                  vim.lsp.buf.definition()
+                end
+              end,
+              desc = "Goto [[wiki-link]] / LSP definition",
+              has = "definition",
+            },
+          },
         },
       },
     },

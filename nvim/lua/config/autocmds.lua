@@ -17,4 +17,18 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Fallback [[wiki-link]] navigation when no LSP is attached
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    local wiki = require("config.wiki_links")
+    local buf = vim.api.nvim_get_current_buf()
+    vim.keymap.set("n", "gd", function()
+      if not wiki.goto_wiki_link() then
+        vim.lsp.buf.definition()
+      end
+    end, { buffer = buf, desc = "Wiki-link / LSP definition" })
+  end,
+})
+
 
