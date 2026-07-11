@@ -7,7 +7,7 @@ windows:
       layout: 61e7,138x30,0,0{46x30,0,0,1,91x30,47,0,7}
       panes:
         - opencode
-        - nvim
+        - nvim .
 
   - AI-Marketiv:
       root: /home/panjiangka1/Documents/dev/marketiv-web
@@ -15,7 +15,7 @@ windows:
       panes:
         - opencode
         - npm run dev
-        - nvim
+        - nvim .
 
   - Tasks:
       root: /home/panjiangka1
