@@ -6,8 +6,8 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      style = "storm", -- options: storm, moon, night, day
-      transparent = false,
+      style = "night", -- options: storm, moon, night, day
+      transparent = true,
       styles = {
         sidebars = "dark",
         floats = "dark",
@@ -116,11 +116,85 @@ return {
   --   ft = { "markdown" },
   -- },
   --
-  -- 6. Live Server
+  -- 7. Bullets.vim
   {
-    "barrettruth/live-server.nvim",
-    cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
-    opts = {},
+    "bullets-vim/bullets.vim",
+    ft = { "markdown", "text", "gitcommit" },
+    init = function()
+      vim.g.bullets_enabled_file_types = { "markdown", "text", "gitcommit" }
+    end,
+  },
+
+  -- 8. SmoothCursor
+  {
+    "gen740/SmoothCursor.nvim",
+    config = function()
+      require("smoothcursor").setup({
+        type = "default",
+        fancy = {
+          enable = true,
+          head = { cursor = "▷", texthl = "SmoothCursor", linehl = nil },
+          body = {
+            { cursor = "●", texthl = "SmoothCursorOrange" },
+            { cursor = "●", texthl = "SmoothCursorYellow" },
+            { cursor = "●", texthl = "SmoothCursorGreen" },
+            { cursor = "•", texthl = "SmoothCursorAqua" },
+            { cursor = "•", texthl = "SmoothCursorBlue" },
+            { cursor = ".", texthl = "SmoothCursorPurple" },
+            { cursor = ".", texthl = "SmoothCursorBlue" },
+          },
+          tail = { cursor = nil, texthl = "SmoothCursor" },
+        },
+        speed = 25,
+        intervals = 35,
+        threshold = 3,
+        timeout = 3000,
+      })
+    end,
+  },
+
+  -- 9. Tiny Glimmer
+  {
+    "rachartier/tiny-glimmer.nvim",
+    event = "VeryLazy",
+    opts = {
+      overwrite = {
+        auto_map = true,
+        yank = {
+          enabled = true,
+          default_animation = {
+            name = "fade",
+            settings = {
+              from_color = "#a6e3a1",
+              max_duration = 400,
+              min_duration = 200,
+            },
+          },
+        },
+        paste = {
+          enabled = true,
+          default_animation = {
+            name = "reverse_fade",
+            settings = {
+              from_color = "#94e2d5",
+              max_duration = 400,
+              min_duration = 200,
+            },
+          },
+        },
+        undo = { enabled = false },
+        redo = { enabled = false },
+        search = {
+          enabled = true,
+          default_animation = {
+            name = "pulse",
+            settings = {
+              from_color = "#f9e2af",
+            },
+          },
+        },
+      },
+    },
   },
 
   {
@@ -205,6 +279,59 @@ return {
           rendered = "󰳦 Caution",
         },
       },
+    },
+  },
+
+  -- 10. Dashboard
+  {
+    "folke/snacks.nvim",
+    opts = { dashboard = { enabled = false } },
+  },
+  {
+    "nvimdev/dashboard-nvim",
+    lazy = false,
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
+    opts = {
+      theme = "hyper",
+      config = {
+        week_header = { enable = true },
+        shortcut = {
+          { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+          { desc = " Files", group = "Label", action = "Telescope find_files", key = "f" },
+          { desc = " Grep", group = "Number", action = "Telescope live_grep", key = "g" },
+          { desc = "󰒲 Lazy", group = "DiagnosticHint", action = "Lazy", key = "l" },
+        },
+        packages = { enable = true },
+        project = { enable = true, limit = 8 },
+        mru = { enable = true, limit = 10 },
+      },
+    },
+  },
+
+  -- 11. vim-illuminate
+  {
+    "RRethy/vim-illuminate",
+    event = "VeryLazy",
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = { providers = { "lsp" } },
+    },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
+    end,
+  },
+
+  -- 12. nerdy.nvim
+  {
+    "2kabhishek/nerdy.nvim",
+    cmd = "Nerdy",
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    opts = {},
+    keys = {
+      { "<leader>in", "<cmd>Nerdy<CR>", desc = "Nerd Icons" },
     },
   },
 
