@@ -2,7 +2,7 @@ name: SecondBrain
 root: ~/Documents/Second_Brain
 
 windows:
-  - fish:
+  - SecondBrain:
       layout: f1fe,160x35,0,0{53x35,0,0,0,106x35,54,0,1}
       panes:
         - opencode
