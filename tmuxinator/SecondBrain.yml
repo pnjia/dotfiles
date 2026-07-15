@@ -3,7 +3,7 @@ root: ~/Documents/Second_Brain
 
 windows:
   - SecondBrain:
-      layout: f1fe,160x35,0,0{53x35,0,0,0,106x35,54,0,1}
+      layout: 5b03,160x35,0,0{102x35,0,0,2,57x35,103,0,1}
       panes:
-        - opencode
         - nvim .
+        - opencode
