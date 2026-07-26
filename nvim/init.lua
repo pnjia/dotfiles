@@ -4,13 +4,14 @@ require("config.lazy")
 -- Template command untuk Second Brain
 vim.api.nvim_create_user_command("Template", function(ctx)
   local templates = {
+    tugas = "099_System/Templates/Tugas.md",
     konsep = "099_System/Templates/Konsep.md",
     catatan = "099_System/Templates/Catatan.md",
     inbox = "099_System/Templates/Inbox.md",
   }
   local tpl = templates[ctx.args]
   if not tpl then
-    vim.notify("Template tidak ditemukan. Pilih: konsep, catatan, inbox", vim.log.levels.ERROR)
+    vim.notify("Template tidak ditemukan. Pilih: tugas, konsep, catatan, inbox", vim.log.levels.ERROR)
     return
   end
   local vault = vim.fn.expand("~/Documents/Second_Brain")
@@ -22,4 +23,4 @@ vim.api.nvim_create_user_command("Template", function(ctx)
     return line
   end):totable()
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end, { nargs = 1, desc = "Apply template: konsep, catatan, inbox" })
+end, { nargs = 1, desc = "Apply template: tugas, konsep, catatan, inbox" })

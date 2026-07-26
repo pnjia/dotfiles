@@ -11,3 +11,9 @@ vim.opt.guicursor = {
 
 vim.opt.number = true
 vim.opt.relativenumber = false
+
+-- Hapus clipboard=unnamedplus dari LazyVim
+-- unnamedplus sinkronkan " register dengan system clipboard
+-- Akibat: visual d → cut ke " → timpa clipboard luar
+-- Fix: pakai mapping y/p langsung ke + register
+vim.opt.clipboard = ""
