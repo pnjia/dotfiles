@@ -166,15 +166,24 @@ set -g automatic-rename off
 setw -g allow-rename off
 TMUX_CONF
 
-# ── 4. Tmux plugins ─────────────────────────────────────────────────
-echo "[4/8] Install tmux plugins..."
+# ── 4. Fix SSL lib mismatch & Tmux plugins ───────────────────────────
+echo "[4/8] Sync SSL libraries & install tmux plugins..."
+# Fix "SSL_set_quic_tls_transport_params" linker error — out-of-sync openssl/libngtcp2
+pkg reinstall -y git curl openssl libngtcp2 ca-certificates 2>/dev/null || true
+
 install_plugin() {
     local name="$1"
     local url="$2"
     local dir="$HOME/.config/tmux/plugins/$name"
-    if [ ! -d "$dir" ]; then
-        git clone --depth 1 "$url" "$dir"
-    fi
+    if [ -d "$dir" ]; then return 0; fi
+    echo "  -> Install $name..."
+    if git clone --depth 1 "$url" "$dir" 2>/dev/null; then return 0; fi
+    echo "  -> git-remote-https gagal, pakai curl+tar fallback..."
+    local tmpdir="$PREFIX/tmp/plugin-$$-$name"
+    mkdir -p "$tmpdir"
+    curl -fsSL "${url%.git}/archive/HEAD.tar.gz" | tar -xz -C "$tmpdir" --strip-components=1
+    rm -rf "$dir" 2>/dev/null || true
+    mv "$tmpdir" "$dir"
 }
 
 install_plugin "tpm"         "https://github.com/tmux-plugins/tpm"
