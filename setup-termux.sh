@@ -247,10 +247,10 @@ fi
 
 # ── 8. Set fish as default shell ────────────────────────────────────
 echo "[8/9] Set fish sebagai default shell..."
-FISH_PATH="$(command -v fish)"
+FISH_PATH="$(command -v fish || true)"
 if [ -n "$FISH_PATH" ]; then
     mkdir -p ~/.termux
-    echo "$FISH_PATH" > ~/.termux/shell
+    ln -sf "$FISH_PATH" ~/.termux/shell
 fi
 
 echo ""
