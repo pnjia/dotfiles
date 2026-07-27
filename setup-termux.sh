@@ -85,9 +85,18 @@ cp -f "$DOTFILES_DIR/fish/fish_variables" ~/.config/fish/fish_variables 2>/dev/n
 cp -rf "$DOTFILES_DIR/fish/functions/"* ~/.config/fish/functions/ 2>/dev/null || true
 cp -rf "$DOTFILES_DIR/fish/completions/"* ~/.config/fish/completions/ 2>/dev/null || true
 
-# conf.d (adapted for Termux — no OMF or rustup by default)
-cp -f "$DOTFILES_DIR/fish/conf.d/omf.fish" ~/.config/fish/conf.d/omf.fish 2>/dev/null || true
-cp -f "$DOTFILES_DIR/fish/conf.d/rustup.fish" ~/.config/fish/conf.d/rustup.fish 2>/dev/null || true
+# conf.d (guarded — hanya source kalo file-nya ada)
+cat > ~/.config/fish/conf.d/omf.fish << 'OMF_GUARD'
+if test -f "$OMF_PATH/init.fish"
+    source "$OMF_PATH/init.fish"
+end
+OMF_GUARD
+
+cat > ~/.config/fish/conf.d/rustup.fish << 'RUSTUP_GUARD'
+if test -f "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
+end
+RUSTUP_GUARD
 
 # ── 3. Tmux ──────────────────────────────────────────────────────────
 echo "[3/9] Setup tmux..."
