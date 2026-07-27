@@ -48,6 +48,10 @@ mkdir -p ~/.config/fish/conf.d
 mkdir -p ~/.config/fish/functions
 
 cat > ~/.config/fish/config.fish << 'FISH_CONFIG'
+# ── Termux identity ──────────────────────────────────────────────────
+set -gx USER panjiangka1
+set -gx HOSTNAME okecomputer
+
 if status is-interactive
     set -x EDITOR nvim
     if type -q lsd
@@ -206,7 +210,15 @@ install_plugin "catppuccin"  "https://github.com/catppuccin/tmux.git"
 install_plugin "tmux-cpu"    "https://github.com/tmux-plugins/tmux-cpu"
 
 # ── 5. Neovim (LazyVim) ─────────────────────────────────────────────
+# Set system hostname
+echo "okecomputer" > "$PREFIX/etc/hostname" 2>/dev/null || true
+
 echo "[5/9] Setup neovim..."
+# Disable fff.nvim (Rust extension segfault on Termux ARM)
+if [ -f "$DOTFILES_DIR/nvim/lua/plugins/fff.lua" ]; then
+    mv "$DOTFILES_DIR/nvim/lua/plugins/fff.lua" "$DOTFILES_DIR/nvim/lua/plugins/fff.lua.disabled"
+fi
+
 if [ -d ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
     echo "  -> Backup existing nvim ke ~/.config/nvim.bak"
     mv ~/.config/nvim ~/.config/nvim.bak
@@ -265,8 +277,27 @@ echo "  3. Buka nvim → nvim otomatis install plugin (tunggu selesai)"
 echo "  4. Untuk tmux, jalankan 'tmux'"
 echo ""
 echo "Catatan:"
-echo "  - fish_variables menyimpan warna prompt dari PC — prompt tetap dipakai"
-echo "  - Oh My Fish (omf) perlu diinstall manual: curl -L https://get.oh-my.fish | fish"
+echo "  - fff.nvim dinonaktifkan (segfault di Termux ARM)"
+echo "  - USER=panjiangka1, HOSTNAME=okecomputer (lihat ~/.config/fish/config.fish)"
+echo "  - Oh My Fish (omf): curl -L https://get.oh-my.fish | fish"
 echo "  - Rust/Cargo: pkg install rust"
-echo "  - fnm: pkg install fnm"
-echo "  - Jika prompt error 'hostname', install: pkg install net-tools"
+echo "  - fnm: pkg install fnm
+"
+echo "╔══════════════════════════════════════════════════════════════╗"
+echo "║  Fix manual (jalankan kalo ada error):                       ║"
+echo "╠══════════════════════════════════════════════════════════════╣"
+echo "║  1. fff.nvim SIGSEGV:                                       ║"
+echo "║     mv ~/.config/nvim/lua/plugins/fff.lua{,.disabled}       ║"
+echo "║     nvim --headless '+Lazy clean' +qa                       ║"
+echo "║                                                             ║"
+echo "║  2. Hostname:                                               ║"
+echo "║     su -c 'hostname okecomputer'  (atau)                    ║"
+echo "║     echo okecomputer > \$PREFIX/etc/hostname                    ║"
+echo "║                                                             ║"
+echo "║  3. Prompt username:                                        ║"
+echo "║     echo 'set -gx USER panjiangka1' >> ~/.config/fish/config.fish ║"
+echo "║                                                             ║"
+echo "║  4. Shell login error (Permission denied):                  ║"
+echo "║     rm ~/.termux/shell                                      ║"
+echo "║     ln -sf (command -v fish) ~/.termux/shell                ║"
+echo "╚══════════════════════════════════════════════════════════════╝"
