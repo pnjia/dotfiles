@@ -8,8 +8,24 @@ echo "======================================="
 echo "  Termux Dotfiles Installer"
 echo "======================================="
 
+# ── 0. Bootstrap: pastikan curl jalan ────────────────────────────────
+echo "[0/9] Bootstrap: install & fix curl..."
+if ! command -v curl &>/dev/null; then
+    pkg install -y curl 2>/dev/null || {
+        echo "  -> curl gagal install. Coba reinstall openssl + libngtcp2 dulu..."
+        pkg install -y openssl libngtcp2 2>/dev/null || true
+        pkg install -y curl
+    }
+fi
+# Test curl beneran jalan (cek SSL)
+if ! curl -fsI https://github.com &>/dev/null; then
+    echo "  -> curl error SSL/QUIC. Resync library..."
+    pkg reinstall -y openssl libngtcp2 ca-certificates 2>/dev/null || true
+    pkg install -y curl 2>/dev/null || true
+fi
+
 # ── 1. Install packages ──────────────────────────────────────────────
-echo "[1/8] Menginstall packages..."
+echo "[1/9] Menginstall packages..."
 pkg update -y
 pkg install -y \
     fish \
@@ -26,7 +42,7 @@ pkg install -y \
     which
 
 # ── 2. Fish shell ────────────────────────────────────────────────────
-echo "[2/8] Setup fish..."
+echo "[2/9] Setup fish..."
 mkdir -p ~/.config/fish/completions
 mkdir -p ~/.config/fish/conf.d
 mkdir -p ~/.config/fish/functions
@@ -70,7 +86,7 @@ cp -f "$DOTFILES_DIR/fish/conf.d/omf.fish" ~/.config/fish/conf.d/omf.fish 2>/dev
 cp -f "$DOTFILES_DIR/fish/conf.d/rustup.fish" ~/.config/fish/conf.d/rustup.fish 2>/dev/null || true
 
 # ── 3. Tmux ──────────────────────────────────────────────────────────
-echo "[3/8] Setup tmux..."
+echo "[3/9] Setup tmux..."
 mkdir -p ~/.config/tmux/plugins
 
 cat > ~/.tmux.conf << 'TMUX_CONF'
@@ -166,9 +182,8 @@ set -g automatic-rename off
 setw -g allow-rename off
 TMUX_CONF
 
-# ── 4. Fix SSL lib mismatch & Tmux plugins ───────────────────────────
-echo "[4/8] Sync SSL libraries & install tmux plugins..."
-# Fix "SSL_set_quic_tls_transport_params" linker error — out-of-sync openssl/libngtcp2
+# ── 4. Tmux plugins ─────────────────────────────────────────────────
+echo "[4/9] Install tmux plugins..."
 pkg reinstall -y git curl openssl libngtcp2 ca-certificates 2>/dev/null || true
 
 install_plugin() {
@@ -191,7 +206,7 @@ install_plugin "catppuccin"  "https://github.com/catppuccin/tmux.git"
 install_plugin "tmux-cpu"    "https://github.com/tmux-plugins/tmux-cpu"
 
 # ── 5. Neovim (LazyVim) ─────────────────────────────────────────────
-echo "[5/8] Setup neovim..."
+echo "[5/9] Setup neovim..."
 if [ -d ~/.config/nvim ] && [ ! -L ~/.config/nvim ]; then
     echo "  -> Backup existing nvim ke ~/.config/nvim.bak"
     mv ~/.config/nvim ~/.config/nvim.bak
@@ -204,7 +219,7 @@ fi
 ln -sf "$DOTFILES_DIR/nvim" ~/.config/nvim
 
 # ── 6. Tmuxinator (optional) ────────────────────────────────────────
-echo "[6/8] Setup tmuxinator (optional)..."
+echo "[6/9] Setup tmuxinator (optional)..."
 if command -v ruby &>/dev/null; then
     if ! command -v tmuxinator &>/dev/null; then
         gem install tmuxinator --no-document 2>/dev/null || true
@@ -214,7 +229,7 @@ if command -v ruby &>/dev/null; then
 fi
 
 # ── 7. Install JetBrains Mono Nerd Font ──────────────────────────────
-echo "[7/8] Install JetBrains Mono Nerd Font..."
+echo "[7/9] Install JetBrains Mono Nerd Font..."
 FONT_FILE="$HOME/.termux/font.ttf"
 mkdir -p "$HOME/.termux"
 if [ -f "$FONT_FILE" ]; then
@@ -231,7 +246,7 @@ if [ -f "$FONT_FILE" ]; then
 fi
 
 # ── 8. Set fish as default shell ────────────────────────────────────
-echo "[8/8] Set fish sebagai default shell..."
+echo "[8/9] Set fish sebagai default shell..."
 FISH_PATH="$(command -v fish)"
 if [ -n "$FISH_PATH" ]; then
     mkdir -p ~/.termux
