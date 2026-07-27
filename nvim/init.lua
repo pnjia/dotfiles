@@ -5,13 +5,14 @@ require("config.lazy")
 vim.api.nvim_create_user_command("Template", function(ctx)
   local templates = {
     tugas = "099_System/Templates/Tugas.md",
+    tugasprojek = "099_System/Templates/TugasProjek.md",
     konsep = "099_System/Templates/Konsep.md",
     catatan = "099_System/Templates/Catatan.md",
     inbox = "099_System/Templates/Inbox.md",
   }
   local tpl = templates[ctx.args]
   if not tpl then
-    vim.notify("Template tidak ditemukan. Pilih: tugas, konsep, catatan, inbox", vim.log.levels.ERROR)
+    vim.notify("Template tidak ditemukan. Pilih: tugas, tugasprojek, konsep, catatan, inbox", vim.log.levels.ERROR)
     return
   end
   local vault = vim.fn.expand("~/Documents/Second_Brain")
@@ -19,8 +20,9 @@ vim.api.nvim_create_user_command("Template", function(ctx)
   local title = vim.fn.expand("%:t:r")
   lines = vim.iter(lines):map(function(line)
     line = line:gsub("{{title}}", title)
+    line = line:gsub("{{date}}", os.date("%Y-%m-%d"))
     line = line:gsub('"{ date }":', os.date("%Y-%m-%d"))
     return line
   end):totable()
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end, { nargs = 1, desc = "Apply template: tugas, konsep, catatan, inbox" })
+end, { nargs = 1, desc = "Apply template: tugas, tugasprojek, konsep, catatan, inbox" })
