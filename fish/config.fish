@@ -43,3 +43,7 @@ alias sherlock='/tmp/sherlock/venv/bin/sherlock'
 
 # fd-find (binary name fdfind on Debian/Ubuntu)
 alias fd='fdfind'
+
+function on_exit --on-event fish_exit
+    echo fish is now exiting
+end
