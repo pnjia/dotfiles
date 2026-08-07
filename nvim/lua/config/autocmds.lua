@@ -44,6 +44,12 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.lsp.buf.definition()
       end
     end, { buffer = buf, desc = "Wiki-link / LSP definition" })
+    vim.keymap.set("n", "gf", function()
+      if wiki.goto_link() then
+        return
+      end
+      vim.cmd("normal! gf")
+    end, { buffer = buf, desc = "Goto file / markdown-link / wiki-link" })
   end,
 })
 
